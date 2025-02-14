@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Foundation\Auth\User;
+use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
@@ -22,7 +22,7 @@ class AuthController extends Controller
             ]);
             return response()->json(['message' => 'New user registered'], 201);
         } catch(\Exception $e){
-            return response()->json(['message' => 'moo'], 400);
+            return response()->json(['message' => $e->getMessage()], 400);
         }
     }
 }
