@@ -16,7 +16,7 @@ class ChatbotController extends Controller
         if (Auth::check()) {
             $user = Auth::user();
         } else {
-            return response()->json(['error' => 'nej'], 401);
+            return response()->json(['error' => 'inte behörig'], 401);
         }
         $session_id = $request->session_id ?? (string) Str::uuid();
         
@@ -25,12 +25,15 @@ class ChatbotController extends Controller
         ->orderBy('created_at', 'asc')
         ->get();
 
-        $messages = $previousMessages->map(fn($chat) => [
+        $previousMessagesArray = $previousMessages->map(fn($chat) => [
             ['role' => 'user', 'content' => $chat->user_message],
             ['role' => 'assistant', 'content' => $chat->bot_response],
         ])->flatten(1)->toArray();
+        
 
-        $messages[] = ['role' => 'user', 'content' => $request->message];
+        $messages = array_merge($previousMessagesArray, [
+            ['role' => 'user', 'content' => $request->message]
+        ]);
 
         $response = Http::post('http://localhost:11434/api/generate', [
             'model' => 'mistral',
