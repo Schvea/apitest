@@ -36,15 +36,16 @@ return [
     */
 
     'guards' => [
-        'web' => [
-            'driver' => 'session',
-            'provider' => 'users',
-        ],
-        'api' => [
-            'driver' => 'token',  // or 'passport' or 'sanctum'
-            'provider' => 'users',
-        ],
+    'web' => [
+        'driver' => 'session',
+        'provider' => 'users',
     ],
+
+    'api' => [
+        'driver' => 'sanctum',  // <-- This should be sanctum for API
+        'provider' => 'users',
+    ],
+],
 
     /*
     |--------------------------------------------------------------------------
