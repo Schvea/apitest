@@ -37,7 +37,7 @@ class ChatbotController extends Controller
 
         $response = Http::post('http://localhost:11434/api/generate', [
             'model' => 'mistral',
-            'prompt' => $request->message,
+            'prompt' => json_encode($messages),
             'stream' => false
         ]);
 
